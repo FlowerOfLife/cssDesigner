@@ -1,0 +1,73 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="jquery-ui-1.10.3/themes/base/jquery.ui.all.css">
+    <link rel="stylesheet" href="chosen/chosen.min.css">
+    <link rel="stylesheet" href="qtip/jquery.qtip.css">
+    <script src="jquery-ui-1.10.3/jquery-1.9.1.js"></script>
+    <script src="jquery-ui-1.10.3/ui/jquery-ui.js"></script>
+    <script src="jquery-ui-1.10.3/ui/jquery.ui.droppable.js"></script>
+    <script src="qtip/jquery.qtip.js"></script>
+    <script src="chosen/chosen.jquery.min.js" type="text/javascript"></script>
+    <script src="javascript/jquery.fontselector.js" type="text/javascript"></script>
+    <script src="index.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <style type="text/css">
+        #toolbox {
+            width: 160px;  
+            background-color:#b9b9b9;
+            float:left;
+            border:2px solid #646464; 
+            border-radius:3px;}
+        .chzn-container{
+         
+  height: 26px;
+  line-height: 26px;
+        }
+    </style>
+    <script>
+        /*
+        @TODO:
+        1. Create InspectedObject //shared
+        2. CSS Property Selector (Chozen) //tab
+        3. Toolbox object //shared
+        4. Toolbox Container //shared
+        
+    */
+
+        $(function() {
+            var props = document.getElementById('myObject');
+            $('#choosen').append(inspectedObj.createPropertySelector(props)).ready(
+                function() {
+                    $('#chosenProps').val([ 
+                        'borderBottomLeftRadius',
+                        'borderTopLeftRadius',
+                        'borderBottomRightRadius',
+                        'borderTopRightRadius',
+                        'borderRadius',
+                        'fontSize',
+                        'height',
+                        'width',
+                        'font',
+                        'float',
+                        'border'
+                    ]);
+                    $('#chosenProps').trigger("chosen:updated");
+                })
+        });
+    </script>
+    <div id="mockBtn">
+        <button id="myObject">DEMO</button>
+    </div>
+
+    <div id="choosen">
+
+    </div>
+    <div id="workDiv">
+
+    </div>
+</body>
+
+</html>

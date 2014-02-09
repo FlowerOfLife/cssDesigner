@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Chosen: A jQuery Plugin by Harvest to Tame Unwieldy Select Boxes</title>
+  <link rel="stylesheet" href="docsupport/style.css">
+  <link rel="stylesheet" href="docsupport/prism.css">
+  <link rel="stylesheet" href="chosen.css">
+  <style type="text/css" media="all">
+    /* fix rtl for demo */
+    .chosen-rtl .chosen-drop { left: -9000px; }
+  </style>
+</head>
+<body>
+  <form>
+    <div id="container">
+      <div id="content">
+        <header>
+          <h1>Chosen</h1>
+        </header>
+        <p>Chosen is a jQuery plugin that makes long, unwieldy select boxes much more user-friendly.</p>
+
+        <p>
+          <a class="button button-blue" href="https://github.com/harvesthq/chosen/releases">Downloads</a>
+          <a class="button" href="https://github.com/harvesthq/chosen">Project Source</a>
+          <a class="button" href="https://github.com/harvesthq/chosen/blob/master/contributing.md">Contribute</a>
+        </p>
+
+
+
+      <h2><a name="multiple-select" class="anchor" href="#multiple-select">Multiple Select</a></h2>
+      <div class="side-by-side clearfix">
+        <div>
+          <em>Turns This</em>
+          
+        <div>
+          <em>Into This</em>
+          <select data-placeholder="Choose a Country..." class="chosen-select" multiple style="width:350px;" tabindex="4">
+            <option value=""></option>
+            <option value="United States">United States</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="Afghanistan">Afghanistan</option>
+            <option value="Aland Islands">Aland Islands</option>
+            <option value="Albania">Albania</option>
+            <option value="Algeria">Algeria</option>
+            <option value="American Samoa">American Samoa</option>
+            <option value="Andorra">Andorra</option>
+            <option value="Angola">Angola</option>
+            <option value="Anguilla">Anguilla</option>
+            <option value="Antarctica">Antarctica</option>
+            <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+          
+              <option value="Wallis and Futuna">Wallis and Futuna</option>
+            <option value="Western Sahara">Western Sahara</option>
+            <option value="Yemen">Yemen</option>
+            <option value="Zambia">Zambia</option>
+            <option value="Zimbabwe">Zimbabwe</option>
+          </select>
+        </div>
+      </div>
+
+
+      <footer>
+        &copy; 2011&ndash;2013 <a href="http://www.getharvest.com/">Harvest</a>. Chosen is licensed under the <a href="https://github.com/harvesthq/chosen/blob/master/LICENSE.md">MIT license</a>.
+      </footer>
+
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+  <script src="chosen.jquery.js" type="text/javascript"></script>
+  <script src="docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
+  </form>
+  <div class="oss-bar">
+    <ul>
+      <li><a class="fork" href="https://github.com/harvesthq/chosen">Fork on Github</a></li>
+      <li><a class="harvest" href="http://www.getharvest.com/">Built by Harvest</a></li>
+    </ul>
+  </div>
+</body>
+</html>
