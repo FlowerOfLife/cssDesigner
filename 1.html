@@ -1,208 +1,305 @@
-<script>
-    var propsMapper = 
-        {
-            'azimuth': '<angle> | [[ left-side | far-left | left | center-left | center | center-right | right | far-right | right-side ] || behind ] | leftwards | rightwards | inherit'
-        , 
-            'background-attachment': 'scroll | fixed | inherit'
-        , 
-            'background-color': '<color> | transparent | inherit'
-        , 
-            'background-image': '<uri> | none | inherit'
-        , 
-            'background-position': '[ [ <percentage> | <length> | left | center | right ] [ <percentage> | <length> | top | center | bottom ]? ] | [ [ left | center | right ] || [ top | center | bottom ] ] | inherit'
-        , 
-            'background-repeat': 'repeat | repeat-x | repeat-y | no-repeat | inherit'
-        , 
-            'background': '[background-color || background-image || background-repeat || background-attachment || background-position] | inherit'
-        , 
-            'border-collapse': 'collapse | separate | inherit'
-        , 
-            'border-color': '[ <color> | transparent ]1,4, | inherit'
-        , 
-            'border-spacing': '<length> <length>? | inherit'
-        , 
-            'border-style': '<border-style>1,4, | inherit'
-        , 
-            'border-top,border-right,border-bottom,border-left': '[ <border-width> || <border-style> || border-top-color ] | inherit'
-        , 
-            'border-top-color,border-right-color,border-bottom-color,border-left-color': '<color> | transparent | inherit'
-        , 
-            'border-top-style,border-right-style,border-bottom-style,border-left-style': '<border-style> | inherit'
-        , 
-            'border-top-width,border-right-width,border-bottom-width,border-left-width': '<border-width> | inherit'
-        , 
-            'border-width': '<border-width>1,4, | inherit'
-        , 
-            'border': '[ <border-width> || <border-style> || border-top-color ] | inherit'
-        , 
-            'bottom': '<length> | <percentage> | auto | inherit'
-        , 
-            'caption-side': 'top | bottom | inherit'
-        , 
-            'clear': 'none | left | right | both | inherit'
-        , 
-            'clip': '<shape> | auto | inherit'
-        , 
-            'color': '<color> | inherit'
-        , 
-            'content': 'normal | none | [ <string> | <uri> | <counter> | attr(<identifier>) | open-quote | close-quote | no-open-quote | no-close-quote ]+ | inherit'
-        , 
-            'counter-increment': '[ <identifier> <integer>? ]+ | none | inherit'
-        , 
-            'counter-reset': '[ <identifier> <integer>? ]+ | none | inherit'
-        , 
-            'cue-after': '<uri> | none | inherit'
-        , 
-            'cue-before': '<uri> | none | inherit'
-        , 
-            'cue': '[ cue-before || cue-after ] | inherit'
-        , 
-            'cursor': '[ [<uri> ,]* [ auto | crosshair | default | pointer | move | e-resize | ne-resize | nw-resize | n-resize | se-resize | sw-resize | s-resize | w-resize | text | wait | help | progress ] ] | inherit'
-        , 
-            'direction': 'ltr | rtl | inherit'
-        , 
-            'display': 'inline | block | list-item | inline-block | table | inline-table | table-row-group | table-header-group | table-footer-group | table-row | table-column-group | table-column | table-cell | table-caption | none | inherit'
-        , 
-            'elevation': '<angle> | below | level | above | higher | lower | inherit'
-        , 
-            'empty-cells': 'show | hide | inherit'
-        , 
-            'float': 'left | right | none | inherit'
-        , 
-            'font-family': '[[ <family-name> | <generic-family> ] [, <family-name>| <generic-family>]* ] | inherit'
-        , 
-            'font-size': '<absolute-size> | <relative-size> | <length> | <percentage> | inherit'
-        , 
-            'font-style': 'normal | italic | oblique | inherit'
-        , 
-            'font-variant': 'normal | small-caps | inherit'
-        , 
-            'font-weight': 'normal | bold | bolder | lighter | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | inherit'
-        , 
-            'font': '[ [ font-style || font-variant || font-weight ]? font-size [ / line-height ]? font-family ] | caption | icon | menu | message-box | small-caption | status-bar | inherit'
-        , 
-            'height': '<length> | <percentage> | auto | inherit'
-        , 
-            'left': '<length> | <percentage> | auto | inherit'
-        , 
-            'letter-spacing': 'normal | <length> | inherit'
-        , 
-            'line-height': 'normal | <number> | <length> | <percentage> | inherit'
-        , 
-            'list-style-image': '<uri> | none | inherit'
-        , 
-            'list-style-position': 'inside | outside | inherit'
-        , 
-            'list-style-type': 'disc | circle | square | decimal | decimal-leading-zero | lower-roman | upper-roman | lower-greek | lower-latin | upper-latin | armenian | georgian | lower-alpha | upper-alpha | none | inherit'
-        , 
-            'list-style': '[ list-style-type || list-style-position || list-style-image ] | inherit'
-        , 
-            'margin-right,margin-left': '<margin-width> | inherit'
-        , 
-            'margin-top,margin-bottom': '<margin-width> | inherit'
-        , 
-            'margin': '<margin-width>1,4, | inherit'
-        , 
-            'max-height': '<length> | <percentage> | none | inherit'
-        , 
-            'max-width': '<length> | <percentage> | none | inherit'
-        , 
-            'min-height': '<length> | <percentage> | inherit'
-        , 
-            'min-width': '<length> | <percentage> | inherit'
-        , 
-            'orphans': '<integer> | inherit'
-        , 
-            'outline-color': '<color> | invert | inherit'
-        , 
-            'outline-style': '<border-style> | inherit'
-        , 
-            'outline-width': '<border-width> | inherit'
-        , 
-            'outline': '[ outline-color || outline-style || outline-width ] | inherit'
-        , 
-            'overflow': 'visible | hidden | scroll | auto | inherit'
-        , 
-            'padding-top,padding-right,padding-bottom,padding-left': '<padding-width> | inherit'
-        , 
-            'padding': '<padding-width>1,4, | inherit'
-        , 
-            'page-break-after': 'auto | always | avoid | left | right | inherit'
-        , 
-            'page-break-before': 'auto | always | avoid | left | right | inherit'
-        , 
-            'page-break-inside': 'avoid | auto | inherit'
-        , 
-            'pause-after': '<time> | <percentage> | inherit'
-        , 
-            'pause-before': '<time> | <percentage> | inherit'
-        , 
-            'pause': '[ [<time> | <percentage>], ] | inherit'
-        , 
-            'pitch-range': '<number> | inherit'
-        , 
-            'pitch': '<frequency> | x-low | low | medium | high | x-high | inherit'
-        , 
-            'play-during': '<uri> [ mix || repeat ]? | auto | none | inherit'
-        , 
-            'position': 'static | relative | absolute | fixed | inherit'
-        , 
-            'quotes': '[<string> <string>]+ | none | inherit'
-        , 
-            'richness': '<number> | inherit'
-        , 
-            'right': '<length> | <percentage> | auto | inherit'
-        , 
-            'speak-header': 'once | always | inherit'
-        , 
-            'speak-numeral': 'digits | continuous | inherit'
-        , 
-            'speak-punctuation': 'code | none | inherit'
-        , 
-            'speak': 'normal | none | spell-out | inherit'
-        , 
-            'speech-rate': '<number> | x-slow | slow | medium | fast | x-fast | faster | slower | inherit'
-        , 
-            'stress': '<number> | inherit'
-        , 
-            'table-layout': 'auto | fixed | inherit'
-        , 
-            'text-align': 'left | right | center | justify | inherit'
-        , 
-            'text-decoration': 'none | [ underline || overline || line-through || blink ] | inherit'
-        , 
-            'text-indent': '<length> | <percentage> | inherit'
-        , 
-            'text-transform': 'capitalize | uppercase | lowercase | none | inherit'
-        , 
-            'top': '<length> | <percentage> | auto | inherit'
-        , 
-            'unicode-bidi': 'normal | embed | bidi-override | inherit'
-        , 
-            'vertical-align': 'baseline | sub | super | top | text-top | middle | bottom | text-bottom | <percentage> | <length> | inherit'
-        , 
-            'visibility': 'visible | hidden | collapse | inherit'
-        , 
-            'voice-family': '[[<specific-voice> | <generic-voice> ],]* [<specific-voice> | <generic-voice> ] | inherit'
-        , 
-            'volume': '<number> | <percentage> | silent | x-soft | soft | medium | loud | x-loud | inherit'
-        , 
-            'white-space': 'normal | pre | nowrap | pre-wrap | pre-line | inherit'
-        , 
-            'widows': '<integer> | inherit'
-        , 
-            'width': '<length> | <percentage> | auto | inherit'
-        , 
-            'word-spacing': 'normal | <length> | inherit'
-        , 
-            'z-index': 'auto | <integer> | inherit'
-        
-        }
-
-var stuff;
-var fined = 'width';
-for(var atr in propsMapper){
-
+<style>
+#toolBox{
+    width :230px;
 }
+</style>
+<div id='toolBox' style='border:solid black 2px'>
+  <div id='sizeDiv'>
+    <select id='sizeType'>
+      <option>px</option>
+      <option>%</option>
+    </select>
+  </div>
+  <div id=rangeSlide1>
+    <input type="checkbox" id='checkBoxRange1'>
+    <input id='minSlideValue1' type='text' style="width:30px">
+    <input id='range1' type='range'>
+    <input id='maxSlideValue1' type='text' style="width:30px">
+    <br>
+  </div>
+  
+  <div id=rangeSlide2>
+    <input type="checkbox" id='checkBoxRange2'>
+    <input id='minSlideValue2' type='text' style="width:30px">
+    <input id='range2' type='range'>
+    <input id='maxSlideValue2' type='text' style='width:30px'>
+    <br>
+  </div>
+  
+  <div id=rangeSlide3>
+    <input type="checkbox" id='checkBoxRange3'>
+    <input id='minSlideValue3' type='text' style="width:30px">
+    <input id='range3' type='range'>
+    <input id='maxSlideValue3' type='text' style='width:30px'>
+    <br>
+  </div>
+
+  <div id=rangeSlide4>
+    <input type="checkbox" id='checkBoxRange4'>
+    <input id='minSlideValue4' type='text' style="width:30px">
+    <input id='range4' type='range'>
+    <input id='maxSlideValue4' type='text' style='width:30px'>
+    <br>
+  </div>
+</div>
+
+<div id=propsTextDiv>
+<input type="text" id = 'propsText'>
+<br>
+</div>
+<div id = 'test'></div>
+<script>
+    var toolBoxObjects = {
+        comboBox:function(objectId){
+          var select = document.createElement('select');
+          var option = document.createElement('option');
+          option.text = 'px';
+          select.appendChild(option)
+          select.id = objectId;
+          return select;
+        },
+        checkBox:function(objectId){
+          checkbox = document.createElement('input');
+          checkbox.id = objectId;
+          checkbox.type = 'checkbox';
+          return checkbox;
+        },
+        div:  function(objectId){
+          div = document.createElement('div');
+          div.id = objectId;
+          div.style.border= 'solid black 2px';
+          return div;
+          },
+        slider:function(objectId){
+          slider = document.createElement('input');
+          slider.type = 'range';
+          slider.id = objectId;
+          return slider;
+          },
+        minMaxTextBox:function(objectId){
+          textBox = document.createElement('input');
+          textBox.style.width = '30px'
+          textBox.type = 'text';
+          textBox.id = objectId;
+          return textBox;
+          }
+        }
+var body = document.getElementById('test');
+var SlidersPane = new toolBoxObjects.div('SlidersPane');
+var slider = toolBoxObjects.slider;
+var minMaxTextBox = new toolBoxObjects.minMaxTextBox('minMaxTextBox');
+var br = document.createElement('br');
+
+body.appendChild(SlidersPane)
+
+SlidersPane.appendChild(toolBoxObjects.comboBox('sizeType'))
+SlidersPane.appendChild(br);
+
+for(var i = 1;i<5;i++){
+  console.log(slider)
+var br = document.createElement('br');
+SlidersPane.appendChild(toolBoxObjects.checkBox('cbox'+i));
+SlidersPane.appendChild(toolBoxObjects.minMaxTextBox('minType'+i));
+SlidersPane.appendChild(slider('slider'+i));
+SlidersPane.appendChild(toolBoxObjects.minMaxTextBox('maxType'+i));
+SlidersPane.appendChild(br);
+}
+
+
+
+
     
+
+var propText = document.getElementById('propsText');
+
+        slider.style.visibility="hidden";
+        slider.style.visibility="hidden";
+        slider.style.visibility="hidden";
+
+
+document.getElementById('cbox1').onchange = function()
+{
+        if(this.checked)
+                {
+                        SlidesDiv2.style.visibility="visible";
+
+                }else{
+                        SlidesDiv2.style.visibility="hidden";
+                        SlidesDiv3.style.visibility="hidden";
+                        SlidesDiv4.style.visibility="hidden";
+                }
+                
+        }
+        
+document.getElementById('cbox2').onchange = function()
+{
+        if(this.checked)
+                {
+                        SlidesDiv3.style.visibility="visible";
+                        SlidesDiv4.style.visibility="visible";
+                }else{
+                        SlidesDiv3.style.visibility="hidden";
+                        SlidesDiv4.style.visibility="hidden";
+                }
+                
+        }
+        
+/*
+slide1.onchange = function(){updatePropTextValue()}
+slide2.onchange = function(){updatePropTextValue()}
+slide3.onchange = function(){updatePropTextValue()}
+slide4.onchange = function(){updatePropTextValue()}
+
+maxSlideValue1.onchange = function(){slideRange1.max = this.value}
+maxSlideValue2.onchange = function(){slideRange2.max = this.value}
+maxSlideValue3.onchange = function(){slideRange3.max = this.value}
+maxSlideValue4.onchange = function(){slideRange4.max = this.value}
+
+minSlideValue1.onchange = function(){slideRange1.min = this.value}
+minSlideValue2.onchange = function(){slideRange2.min = this.value}
+minSlideValue3.onchange = function(){slideRange3.min = this.value}
+minSlideValue4.onchange = function(){slideRange4.min = this.value}
+
+
+
+function updatePropTextValue(){
+        if(hideSlidesCheckBox1.checked){
+        propsText.value = slideRange1.value +sizeType.value+" "+ slideRange2.value +sizeType.value+" ";
+        }
+        
+        if(hideSlidesCheckBox2.checked&&hideSlidesCheckBox1.checked){
+        propsText.value = slideRange1.value +sizeType.value+" " +slideRange2.value +sizeType.value+" "+slideRange3.value +sizeType.value+" " +slideRange4.value +sizeType.value+" ";        
+        }
+        
+        if(hideSlidesCheckBox1.checked==false){
+        propsText.value = slideRange1.value +sizeType.value;        
+        }
+}
+        
+*/        
+
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                              
+    
+var hideSlidesCheckBox1 = document.getElementById('checkBoxRange1');
+var hideSlidesCheckBox2 = document.getElementById('checkBoxRange2');
+var hideSlidesCheckBox3 = document.getElementById('checkBoxRange3');
+var hideSlidesCheckBox4 = document.getElementById('checkBoxRange4');
+
+var SlidesDiv1 = document.getElementById('rangeSlide1');
+var SlidesDiv2 = document.getElementById('rangeSlide2');
+var SlidesDiv3 = document.getElementById('rangeSlide3');
+var SlidesDiv4 = document.getElementById('rangeSlide4');
+
+var slideRange1 = document.getElementById('range1');
+var slideRange2 = document.getElementById('range2');
+var slideRange3 = document.getElementById('range3');
+var slideRange4 = document.getElementById('range4');
+
+var slideRangeMaxValue1 = document.getElementById('maxSlideValue1');
+var slideRangeMaxValue2 = document.getElementById('maxSlideValue2');
+var slideRangeMaxValue3 = document.getElementById('maxSlideValue3');
+var slideRangeMaxValue4 = document.getElementById('maxSlideValue4');
+
+var maxSlideValue1 = document.getElementById('maxSlideValue1');
+var maxSlideValue2 = document.getElementById('maxSlideValue2');
+var maxSlideValue3 = document.getElementById('maxSlideValue3');
+var maxSlideValue4 = document.getElementById('maxSlideValue4');
+
+var minSlideValue1 = document.getElementById('minSlideValue1');
+var minSlideValue2 = document.getElementById('minSlideValue2');
+var minSlideValue3 = document.getElementById('minSlideValue3');
+var minSlideValue4 = document.getElementById('minSlideValue4');
+
+var sizeType = document.getElementById('sizeType');
+
+
+var propText = document.getElementById('propsText');
+
+        SlidesDiv2.style.visibility="hidden";
+        SlidesDiv3.style.visibility="hidden";
+        SlidesDiv4.style.visibility="hidden";
+
+
+hideSlidesCheckBox1.onchange = function()
+{
+        if(this.checked)
+                {
+                        SlidesDiv2.style.visibility="visible";
+
+                }else{
+                        SlidesDiv2.style.visibility="hidden";
+                        SlidesDiv3.style.visibility="hidden";
+                        SlidesDiv4.style.visibility="hidden";
+                }
+                
+        }
+        
+hideSlidesCheckBox2.onchange = function()
+{
+        if(this.checked)
+                {
+                        SlidesDiv3.style.visibility="visible";
+                        SlidesDiv4.style.visibility="visible";
+                }else{
+                        SlidesDiv3.style.visibility="hidden";
+                        SlidesDiv4.style.visibility="hidden";
+                }
+                
+        }
+        
+slideRange1.onchange = function(){updatePropTextValue()}
+slideRange2.onchange = function(){updatePropTextValue()}
+slideRange3.onchange = function(){updatePropTextValue()}
+slideRange4.onchange = function(){updatePropTextValue()}
+
+maxSlideValue1.onchange = function(){slideRange1.max = this.value}
+maxSlideValue2.onchange = function(){slideRange2.max = this.value}
+maxSlideValue3.onchange = function(){slideRange3.max = this.value}
+maxSlideValue4.onchange = function(){slideRange4.max = this.value}
+
+minSlideValue1.onchange = function(){slideRange1.min = this.value}
+minSlideValue2.onchange = function(){slideRange2.min = this.value}
+minSlideValue3.onchange = function(){slideRange3.min = this.value}
+minSlideValue4.onchange = function(){slideRange4.min = this.value}
+
+
+
+function updatePropTextValue(){
+        if(hideSlidesCheckBox1.checked){
+        propsText.value = slideRange1.value +sizeType.value+" "+ slideRange2.value +sizeType.value+" ";
+        }
+        
+        if(hideSlidesCheckBox2.checked&&hideSlidesCheckBox1.checked){
+        propsText.value = slideRange1.value +sizeType.value+" " +slideRange2.value +sizeType.value+" "+slideRange3.value +sizeType.value+" " +slideRange4.value +sizeType.value+" ";        
+        }
+        
+        if(hideSlidesCheckBox1.checked==false){
+        propsText.value = slideRange1.value +sizeType.value;        
+        }
+}
+        
+        
+        
+        
+        
+//console.log(hideSlidesCheckBox)
 </script>
