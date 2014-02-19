@@ -1,0 +1,8 @@
+{
+  "manifest_version": 2,
+
+  "name": "devtools",
+  "description": "This extension demonstrates a 'browser action' with kittens.",
+  "version": "1.0",
+  "devtools_page": "devtools.html"
+}
