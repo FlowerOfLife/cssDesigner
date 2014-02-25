@@ -27,6 +27,7 @@ chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
     })
         .then(function (result) {
             obj.style = result;
+            console.log(obj)
             initTools(obj);
             // "Stuff worked!"
         })
@@ -51,12 +52,15 @@ function getDitails(evalToGet) {
 }
 
 function initTools(props) {
-    // $("[id*='res']").each(function(){console.log(this)})
-    //var props = document.getElementById('myObject');
-    console.log((props.tagName).toLowerCase())
-    var idd = (props.tagName).toLowerCase();
-    var ddd = document.createElement(idd);
-    $('#choosen').append(inspectedObj.createPropertySelector(ddd)).ready(
+    var objForAllStyles = document.createElement((props.tagName).toLowerCase());
+   // props.style
+    
+    $('#choosen').empty()
+    .ready(function(){
+    $('#choosen').append(inspectedObj.createPropertySelector(objForAllStyles))
+    
+
+    .ready(
         function () {
             $('#chosenProps').val([
                         'borderBottomLeftRadius',
@@ -73,8 +77,8 @@ function initTools(props) {
                     ]);
             $('#chosenProps').trigger("chosen:updated");
         })
+})
 }
-
 
 var inspectedObj = {
 
@@ -89,6 +93,7 @@ var inspectedObj = {
     createPropertySelector: function (props) {
 
         return $("<select>", {
+            //selectbox on select update toolboxes
             text: 'select style',
             change: function () {
                 var thisChosenVal = $('#chosenProps').val();
