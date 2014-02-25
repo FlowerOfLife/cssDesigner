@@ -3,60 +3,39 @@
     width :230px;
 }
 </style>
-<div id='toolBox' style='border:solid black 2px'>
-  <div id='sizeDiv'>
-    <select id='sizeType'>
-      <option>px</option>
-      <option>%</option>
-    </select>
-  </div>
-  <div id=rangeSlide1>
-    <input type="checkbox" id='checkBoxRange1'>
-    <input id='minSlideValue1' type='text' style="width:30px">
-    <input id='range1' type='range'>
-    <input id='maxSlideValue1' type='text' style="width:30px">
-    <br>
-  </div>
-  
-  <div id=rangeSlide2>
-    <input type="checkbox" id='checkBoxRange2'>
-    <input id='minSlideValue2' type='text' style="width:30px">
-    <input id='range2' type='range'>
-    <input id='maxSlideValue2' type='text' style='width:30px'>
-    <br>
-  </div>
-  
-  <div id=rangeSlide3>
-    <input type="checkbox" id='checkBoxRange3'>
-    <input id='minSlideValue3' type='text' style="width:30px">
-    <input id='range3' type='range'>
-    <input id='maxSlideValue3' type='text' style='width:30px'>
-    <br>
-  </div>
-
-  <div id=rangeSlide4>
-    <input type="checkbox" id='checkBoxRange4'>
-    <input id='minSlideValue4' type='text' style="width:30px">
-    <input id='range4' type='range'>
-    <input id='maxSlideValue4' type='text' style='width:30px'>
-    <br>
-  </div>
-</div>
-
 <div id=propsTextDiv>
 <input type="text" id = 'propsText'>
 <br>
 </div>
 <div id = 'test'></div>
 <script>
+
+
+var body = document.getElementById('test');
+propName = "SASHA";
+body.appendChild(slidersBox(propName))
+body.appendChild(slidersBox('HHHH'))
+
+
+function slidersBox(propName){
+    function addSlidersBox(propId){
     var toolBoxObjects = {
         comboBox:function(objectId){
           var select = document.createElement('select');
-          var option = document.createElement('option');
-          option.text = 'px';
-          select.appendChild(option)
+          var pxOption = document.createElement('option');
+          var PercentOption = document.createElement('option');
+          pxOption.text = 'px';
+          PercentOption.text = '%';
+          select.appendChild(pxOption)
+          select.appendChild(PercentOption)
           select.id = objectId;
           return select;
+        },
+        textBoxResult:function(objectId){
+          textBoxRes = document.createElement('input');
+          textBoxRes.id = objectId;
+          textBoxRes.type = 'text';
+          return textBoxRes;
         },
         checkBox:function(objectId){
           checkbox = document.createElement('input');
@@ -67,239 +46,121 @@
         div:  function(objectId){
           div = document.createElement('div');
           div.id = objectId;
-          div.style.border= 'solid black 2px';
+          div.style.border= 'solid #e2dfdf 2px';
           return div;
           },
         slider:function(objectId){
           slider = document.createElement('input');
           slider.type = 'range';
           slider.id = objectId;
+          slider.onchange = function(){updatePropTextValue()};
           return slider;
           },
         minMaxTextBox:function(objectId){
           textBox = document.createElement('input');
-          textBox.style.width = '30px'
+          textBox.style.width = '30px';
           textBox.type = 'text';
           textBox.id = objectId;
+console.log(objectId);
+          var ScrolNum = objectId.replace('minType','');
+          ScrolNum = ScrolNum.replace('maxType','');
+          textBox.onchange = function(){
+          console.log(ScrolNum)
+          if(objectId.indexOf('max') != -1){
+              eval('slider'+ ScrolNum).max = this.value;
+          }
+          if(objectId.indexOf('min') != -1){
+              eval('slider'+ ScrolNum).min = this.value;
+          }
+          }
           return textBox;
           }
         }
-var body = document.getElementById('test');
-var SlidersPane = new toolBoxObjects.div('SlidersPane');
+
+var SlidersPane = new toolBoxObjects.div('SlidersPane'+propName);
 var slider = toolBoxObjects.slider;
-var minMaxTextBox = new toolBoxObjects.minMaxTextBox('minMaxTextBox');
+var minMaxTextBox = new toolBoxObjects.minMaxTextBox('minMaxTextBox'+propName);
 var br = document.createElement('br');
 
 body.appendChild(SlidersPane)
 
-SlidersPane.appendChild(toolBoxObjects.comboBox('sizeType'))
+SlidersPane.appendChild(toolBoxObjects.comboBox('sizeType'+propName))
 SlidersPane.appendChild(br);
 
 for(var i = 1;i<5;i++){
-  console.log(slider)
+    var br = document.createElement('br');
+    var container = toolBoxObjects.div('slidePanel'+propName+i)
+    SlidersPane.appendChild(container);
+    container.appendChild(toolBoxObjects.checkBox('cbox'+propName+i));
+    container.appendChild(toolBoxObjects.minMaxTextBox('minType'+propName+i));
+    container.appendChild(toolBoxObjects.slider('slider'+propName+i));
+    container.appendChild(toolBoxObjects.minMaxTextBox('maxType'+propName+i));
+    SlidersPane.appendChild(br);
+}
+
 var br = document.createElement('br');
-SlidersPane.appendChild(toolBoxObjects.checkBox('cbox'+i));
-SlidersPane.appendChild(toolBoxObjects.minMaxTextBox('minType'+i));
-SlidersPane.appendChild(slider('slider'+i));
-SlidersPane.appendChild(toolBoxObjects.minMaxTextBox('maxType'+i));
-SlidersPane.appendChild(br);
-}
-
-
-
-
-    
-
-var propText = document.getElementById('propsText');
-
-        slider.style.visibility="hidden";
-        slider.style.visibility="hidden";
-        slider.style.visibility="hidden";
-
-
-document.getElementById('cbox1').onchange = function()
-{
-        if(this.checked)
-                {
-                        SlidesDiv2.style.visibility="visible";
-
-                }else{
-                        SlidesDiv2.style.visibility="hidden";
-                        SlidesDiv3.style.visibility="hidden";
-                        SlidesDiv4.style.visibility="hidden";
-                }
-                
-        }
-        
-document.getElementById('cbox2').onchange = function()
-{
-        if(this.checked)
-                {
-                        SlidesDiv3.style.visibility="visible";
-                        SlidesDiv4.style.visibility="visible";
-                }else{
-                        SlidesDiv3.style.visibility="hidden";
-                        SlidesDiv4.style.visibility="hidden";
-                }
-                
-        }
-        
-/*
-slide1.onchange = function(){updatePropTextValue()}
-slide2.onchange = function(){updatePropTextValue()}
-slide3.onchange = function(){updatePropTextValue()}
-slide4.onchange = function(){updatePropTextValue()}
-
-maxSlideValue1.onchange = function(){slideRange1.max = this.value}
-maxSlideValue2.onchange = function(){slideRange2.max = this.value}
-maxSlideValue3.onchange = function(){slideRange3.max = this.value}
-maxSlideValue4.onchange = function(){slideRange4.max = this.value}
-
-minSlideValue1.onchange = function(){slideRange1.min = this.value}
-minSlideValue2.onchange = function(){slideRange2.min = this.value}
-minSlideValue3.onchange = function(){slideRange3.min = this.value}
-minSlideValue4.onchange = function(){slideRange4.min = this.value}
-
-
-
-function updatePropTextValue(){
-        if(hideSlidesCheckBox1.checked){
-        propsText.value = slideRange1.value +sizeType.value+" "+ slideRange2.value +sizeType.value+" ";
-        }
-        
-        if(hideSlidesCheckBox2.checked&&hideSlidesCheckBox1.checked){
-        propsText.value = slideRange1.value +sizeType.value+" " +slideRange2.value +sizeType.value+" "+slideRange3.value +sizeType.value+" " +slideRange4.value +sizeType.value+" ";        
-        }
-        
-        if(hideSlidesCheckBox1.checked==false){
-        propsText.value = slideRange1.value +sizeType.value;        
-        }
-}
-        
-*/        
-
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                              
-    
-var hideSlidesCheckBox1 = document.getElementById('checkBoxRange1');
-var hideSlidesCheckBox2 = document.getElementById('checkBoxRange2');
-var hideSlidesCheckBox3 = document.getElementById('checkBoxRange3');
-var hideSlidesCheckBox4 = document.getElementById('checkBoxRange4');
-
-var SlidesDiv1 = document.getElementById('rangeSlide1');
-var SlidesDiv2 = document.getElementById('rangeSlide2');
-var SlidesDiv3 = document.getElementById('rangeSlide3');
-var SlidesDiv4 = document.getElementById('rangeSlide4');
-
-var slideRange1 = document.getElementById('range1');
-var slideRange2 = document.getElementById('range2');
-var slideRange3 = document.getElementById('range3');
-var slideRange4 = document.getElementById('range4');
-
-var slideRangeMaxValue1 = document.getElementById('maxSlideValue1');
-var slideRangeMaxValue2 = document.getElementById('maxSlideValue2');
-var slideRangeMaxValue3 = document.getElementById('maxSlideValue3');
-var slideRangeMaxValue4 = document.getElementById('maxSlideValue4');
-
-var maxSlideValue1 = document.getElementById('maxSlideValue1');
-var maxSlideValue2 = document.getElementById('maxSlideValue2');
-var maxSlideValue3 = document.getElementById('maxSlideValue3');
-var maxSlideValue4 = document.getElementById('maxSlideValue4');
-
-var minSlideValue1 = document.getElementById('minSlideValue1');
-var minSlideValue2 = document.getElementById('minSlideValue2');
-var minSlideValue3 = document.getElementById('minSlideValue3');
-var minSlideValue4 = document.getElementById('minSlideValue4');
-
-var sizeType = document.getElementById('sizeType');
+SlidersPane.appendChild(toolBoxObjects.textBoxResult('textBoxRes'+propName));
 
 
 var propText = document.getElementById('propsText');
-
-        SlidesDiv2.style.visibility="hidden";
-        SlidesDiv3.style.visibility="hidden";
-        SlidesDiv4.style.visibility="hidden";
-
-
-hideSlidesCheckBox1.onchange = function()
+        eval("slidePanel"+propName+'2').style.visibility="hidden";
+        eval("slidePanel"+propName+'3').style.visibility="hidden";
+        eval("slidePanel"+propName+'4').style.visibility="hidden";
+document.getElementById("cbox"+propName+'1').onchange = function()
 {
         if(this.checked)
                 {
-                        SlidesDiv2.style.visibility="visible";
+                        eval("slidePanel"+propName+'2').style.visibility="visible";
 
                 }else{
-                        SlidesDiv2.style.visibility="hidden";
-                        SlidesDiv3.style.visibility="hidden";
-                        SlidesDiv4.style.visibility="hidden";
+        eval("slidePanel"+propName+'2').style.visibility="hidden";
+        eval("slidePanel"+propName+'3').style.visibility="hidden";
+        eval("slidePanel"+propName+'4').style.visibility="hidden";
                 }
                 
         }
         
-hideSlidesCheckBox2.onchange = function()
+document.getElementById("cbox"+propName+'2').onchange = function()
 {
         if(this.checked)
                 {
-                        SlidesDiv3.style.visibility="visible";
-                        SlidesDiv4.style.visibility="visible";
+                        eval("slidePanel"+propName+'3').style.visibility="visible";
+                        eval("slidePanel"+propName+'4').style.visibility="visible";
                 }else{
-                        SlidesDiv3.style.visibility="hidden";
-                        SlidesDiv4.style.visibility="hidden";
+                        eval("slidePanel"+propName+'3').style.visibility="hidden";
+                        eval("slidePanel"+propName+'4').style.visibility="hidden";
                 }
                 
         }
-        
-slideRange1.onchange = function(){updatePropTextValue()}
-slideRange2.onchange = function(){updatePropTextValue()}
-slideRange3.onchange = function(){updatePropTextValue()}
-slideRange4.onchange = function(){updatePropTextValue()}
 
-maxSlideValue1.onchange = function(){slideRange1.max = this.value}
-maxSlideValue2.onchange = function(){slideRange2.max = this.value}
-maxSlideValue3.onchange = function(){slideRange3.max = this.value}
-maxSlideValue4.onchange = function(){slideRange4.max = this.value}
-
-minSlideValue1.onchange = function(){slideRange1.min = this.value}
-minSlideValue2.onchange = function(){slideRange2.min = this.value}
-minSlideValue3.onchange = function(){slideRange3.min = this.value}
-minSlideValue4.onchange = function(){slideRange4.min = this.value}
-
-
-
+var checkBox1 = document.getElementById("cbox"+propName+'1');
+var checkBox2 = document.getElementById("cbox"+propName+'2');
+var slideRange1 = document.getElementById('slider'+propName+'1');
+var slideRange2 = document.getElementById('slider'+propName+'2');
+var slideRange3 = document.getElementById('slider'+propName+'3');
+var slideRange4 = document.getElementById('slider'+propName+'4');
+var sizeType= document.getElementById('sizeType'+propName);
+var textProp= document.getElementById('textBoxRes'+propName);
 function updatePropTextValue(){
-        if(hideSlidesCheckBox1.checked){
-        propsText.value = slideRange1.value +sizeType.value+" "+ slideRange2.value +sizeType.value+" ";
+       //console.log(slideRange1.value);
+        if(checkBox1.checked){
+     
+        textProp.value = slideRange1.value +sizeType.value+" "+ slideRange2.value +sizeType.value+" ";
         }
         
-        if(hideSlidesCheckBox2.checked&&hideSlidesCheckBox1.checked){
-        propsText.value = slideRange1.value +sizeType.value+" " +slideRange2.value +sizeType.value+" "+slideRange3.value +sizeType.value+" " +slideRange4.value +sizeType.value+" ";        
+        if(checkBox2.checked&&checkBox1.checked){
+        textProp.value = slideRange1.value +sizeType.value+" " +slideRange2.value +sizeType.value+" "+slideRange3.value +sizeType.value+" " +slideRange4.value +sizeType.value+" ";
         }
         
-        if(hideSlidesCheckBox1.checked==false){
-        propsText.value = slideRange1.value +sizeType.value;        
+        if(checkBox1.checked==false){
+        textProp.value = slideRange1.value +sizeType.value;        
         }
 }
-        
-        
-        
-        
-        
-//console.log(hideSlidesCheckBox)
+     return SlidersPane   
+}        
+return addSlidersBox();
+}
+
+
+
 </script>

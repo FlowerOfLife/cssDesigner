@@ -1,3 +1,81 @@
+chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
+    var obj = {};
+    getDitails('$0.name')
+        .then(function (result) {
+            obj.name = result;
+            console.log(result); // "Stuff worked!"
+        })
+
+    .then(function () {
+        return getDitails('$0.id')
+    })
+        .then(function (result) {
+            obj.id = result;
+            console.log(result); // "Stuff worked!"
+        })
+
+    .then(function () {
+        return getDitails('$0.tagName')
+    })
+        .then(function (result) {
+            obj.tagName = result;
+            console.log(result); // "Stuff worked!"
+        })
+
+    .then(function () {
+        return getDitails('$0.style')
+    })
+        .then(function (result) {
+            obj.style = result;
+            initTools(obj);
+            // "Stuff worked!"
+        })
+
+
+
+})
+
+//function(err) {
+//  console.log(err); // Error: "It broke"
+//});
+
+
+
+function getDitails(evalToGet) {
+    var promise = new Promise(function (resolve, reject) {
+        chrome.devtools.inspectedWindow.eval(evalToGet, function (result, isException) {
+            resolve(result)
+        });
+    });
+    return promise;
+}
+
+function initTools(props) {
+    // $("[id*='res']").each(function(){console.log(this)})
+    //var props = document.getElementById('myObject');
+    console.log((props.tagName).toLowerCase())
+    var idd = (props.tagName).toLowerCase();
+    var ddd = document.createElement(idd);
+    $('#choosen').append(inspectedObj.createPropertySelector(ddd)).ready(
+        function () {
+            $('#chosenProps').val([
+                        'borderBottomLeftRadius',
+                        'borderTopLeftRadius',
+                        'borderBottomRightRadius',
+                        'borderTopRightRadius',
+                        'borderRadius',
+                        'fontSize',
+                        'height',
+                        'width',
+                        'font',
+                        'float',
+                        'border'
+                    ]);
+            $('#chosenProps').trigger("chosen:updated");
+        })
+}
+
+
 var inspectedObj = {
 
     createMockSubject: function () {
@@ -16,8 +94,9 @@ var inspectedObj = {
                 var thisChosenVal = $('#chosenProps').val();
                 $('#workDiv').html('');
                 for (var atr in thisChosenVal) {
-                    $('#workDiv').append(inspectedObj.criateToolbox(thisChosenVal[atr], props));
-                    console.log(thisChosenVal[atr]);
+                    //$('#workDiv').append(inspectedObj.criateToolbox(thisChosenVal[atr], props));
+                    $('#workDiv').append(addSlidersBox(thisChosenVal[atr], props));
+                    //console.log(thisChosenVal[atr]);
                 }
             },
             multiple: true,
@@ -78,7 +157,7 @@ var inspectedObj = {
                     type: '0',
                     change: function () {
                         $('#' + divid + "_slidersValue").text = this.value;
-                        console.log(this.value)
+                        //console.log(this.value)
                     }
                 }))).tabs(),
 
@@ -122,11 +201,11 @@ var inspectedObj = {
                         type: 'range',
                         min: 0,
                         max: 300,
-                        value:0
+                        value: 0
                     }).change(function () {
-                    console.log( $("#"+divid + "_size").val());
-                      inspectedObj.updateObject(this.id.replace('_slid', ''),this.value+$("#"+divid + "_size").val(),obj);
-                    
+                        // console.log( $("#"+divid + "_size").val());
+                        inspectedObj.updateObject(this.id.replace('_slid', ''), this.value + $("#" + divid + "_size").val(), obj);
+
                     })
 
                 )
@@ -140,11 +219,17 @@ var inspectedObj = {
             id: 'toolBoxContainer'
         });
     },
-    
-    updateObject: function(styleString,value,obj){
-       $("#" + styleString+ "_slidersValue").val(value);
-       obj.style[styleString] =value;
+
+    updateObject: function (styleString, value, obj) {
+        $("#" + styleString + "_slidersValue").val(value);
+        obj.style[styleString] = value;
+        inspectedObj.updataObjectFromPage(styleString, value)
+    },
+    updataObjectFromPage: function (styleString, value) {
+        console.log("$0.style." + styleString + "=" + value)
+        chrome.devtools.inspectedWindow.eval("$0.style." + styleString + "='" + value + "'");
     }
+
 
 
 };
