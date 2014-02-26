@@ -60,10 +60,17 @@ function initTools(props) {
 
     $('#choosen').empty()
         .ready(function () {
-            $('#choosen').append(inspectedObj.createPropertySelector(objForAllStyles))
+            $('#choosen')
+                .append($('<h3>', {
+                    text: 'Type:' + props.tagName + '     ID:' + props.id + '      css:' + JSON.stringify(props.style)
+
+                }))
+                .append(inspectedObj.createPropertySelector(objForAllStyles))
                 .ready(
                     function () {
                         $('#chosenProps').val([
+                            'fontFamily',
+                            'backgroundColor',
                         'borderBottomLeftRadius',
                         'borderTopLeftRadius',
                         'borderBottomRightRadius',
@@ -73,6 +80,7 @@ function initTools(props) {
                         'height',
                         'width',
                         'font',
+                        'font-color',
                         'float',
                         'border'
                     ]);
@@ -102,7 +110,15 @@ var inspectedObj = {
                 $('#workDiv').html('');
                 for (var atr in thisChosenVal) {
                     //$('#workDiv').append(inspectedObj.criateToolbox(thisChosenVal[atr], props));
-                    $('#workDiv').append(addSlidersBox(thisChosenVal[atr], props));
+                    if (thisChosenVal[atr] == 'fontFamily') {
+                        $('#workDiv').append(addFontBox(thisChosenVal[atr], props));
+                    } else if (thisChosenVal[atr].indexOf('Color') != -1) {
+                        console.log('XXXXXXX')
+                        $('#workDiv').append(addColorBox(thisChosenVal[atr], props));
+                    } else {
+                        $('#workDiv').append(addSlidersBox(thisChosenVal[atr], props));
+                    }
+
                 }
             },
             multiple: true,

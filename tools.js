@@ -22,7 +22,8 @@
                 textBoxRes = document.createElement('input');
                 textBoxRes.id = objectId;
                 textBoxRes.type = 'text';
-                textBoxRes.onchange = function () {
+                textBoxRes.style.marginLeft = '33px';
+                textBoxRes.onchage = function () {
                     inspectedObj.updateObject(this.id.replace('res', ''), this.value, obj);
                 }
                 textBoxRes.onkeyup = function () {
@@ -39,7 +40,6 @@
             div: function (objectId) {
                 div = document.createElement('div');
                 div.id = objectId;
-                div.style.border = 'solid #e2dfdf 2px';
                 return div;
             },
             slider: function (objectId) {
@@ -76,16 +76,16 @@
                     }
                     if (objectId.indexOf('min') != -1) {
                         if (ScrolNum.indexOf('1') != -1) {
-                            slider11.max = this.value
+                            slider11.min = this.value
                         }
                         if (ScrolNum.indexOf('2') != -1) {
-                            slider2.max = this.value
+                            slider2.min = this.value
                         }
                         if (ScrolNum.indexOf('3') != -1) {
-                            slider3.max = this.value
+                            slider3.min = this.value
                         }
                         if (ScrolNum.indexOf('4') != -1) {
-                            slider4.max = this.value
+                            slider4.min = this.value
                         }
                     }
                 }
@@ -201,3 +201,237 @@
 
         return SlidersPane;
     }
+
+
+
+
+
+
+
+
+
+    function addFontBox(propName, obj) {
+        var fontSelector = {
+            div: function (objectId) {
+                div = document.createElement('div');
+                div.id = objectId;
+                return div;
+            },
+            comboBox: function (objectId) {
+                var select = document.createElement('select');
+                var PercentOption = document.createElement('option');
+                var fonts = fontsArray;
+                for (font in fonts) {
+                    var fontOption = document.createElement('option');
+                    console.log(fonts[font]);
+                    fontOption.text = fonts[font];
+                    select.appendChild(fontOption)
+                }
+                select.id = objectId;
+                select.onchange = function () {
+                    textBoxResults.value = fontComboBox.value;
+                    textBoxResults.onchage();
+                }
+                return select;
+            },
+            textBoxResult: function (objectId) {
+                textBoxRes = document.createElement('input');
+                textBoxRes.id = objectId;
+                textBoxRes.type = 'text';
+                textBoxRes.style.marginLeft = '33px';
+                textBoxRes.onchage = function () {
+                    console.log(this.id)
+                    inspectedObj.updateObject(this.id.replace('textBoxResult', ''), this.value, obj);
+                }
+                textBoxRes.onkeyup = function () {
+                    inspectedObj.updateObject(this.id.replace('textBoxResult', ''), this.value, obj);
+                }
+                return textBoxRes;
+            },
+        }
+        var textBoxResults = fontSelector.textBoxResult('textBoxResult' + propName);
+        var fontComboBox = fontSelector.comboBox('fontSelector' + propName);
+        var fontPanel = new fontSelector.div('fontPanel' + propName);
+        fontPanel.style.width = '220px';
+        fontPanel.style.float = 'left';
+        fontPanel.appendChild(fontComboBox)
+        fontPanel.appendChild(textBoxResults)
+        return fontPanel;
+    }
+
+
+
+
+
+
+    function addColorBox(propName, obj) {
+        var colorSelector = {
+            div: function (objectId) {
+                div = document.createElement('div');
+                div.id = objectId;
+                return div;
+            },
+            colorInput: function (objectId) {
+                var colorSelect = document.createElement('input');
+                colorSelect.type = 'color'
+                colorSelect.id = objectId;
+                colorSelect.onchange = function () {
+                    updateValues();
+                }
+                return colorSelect;
+            },
+            textBoxResult: function (objectId) {
+                textBoxRes = document.createElement('input');
+                textBoxRes.id = objectId;
+                textBoxRes.type = 'text';
+                textBoxRes.style.marginLeft = '33px';
+                textBoxRes.change = function () {
+                    inspectedObj.updateObject(this.id.replace('textBoxResult', ''), this.value, obj);
+                }
+                textBoxRes.onkeyup = function () {
+                    inspectedObj.updateObject(this.id.replace('textBoxResult', ''), this.value, obj);
+                }
+                return textBoxRes;
+            },
+        }
+
+            function updateValues() {
+                resultBox.value = colorSelectTool.value;
+                resultBox.change();
+            }
+        var colorPanel = new colorSelector.div('colorPanel' + propName);
+        colorPanel.style.width = '220px';
+        colorPanel.style.float = 'left';
+        var colorSelectTool = colorSelector.colorInput('colorSelector' + propName);
+        var resultBox = colorSelector.textBoxResult('textBoxResult' + propName)
+        colorPanel.appendChild(colorSelectTool)
+        colorPanel.appendChild(resultBox)
+        return colorPanel;
+    }
+
+
+
+
+
+
+
+
+
+    var fontsArray = [
+        'academy engraved let',
+'algerian',
+'amaze',
+'arial',
+'arial black',
+'balthazar',
+'bankgothic lt bt',
+'bart',
+'bimini',
+'comic sans ms',
+'book antiqua',
+'bookman old style',
+'braggadocio',
+'britannic bold',
+'brush script mt',
+'century gothic',
+'century schoolbook',
+'chasm',
+'chicago',
+'colonna mt',
+'comic sans ms',
+'commercialscript bt',
+'coolsville',
+'courier',
+'courier new',
+'cursive',
+'dayton',
+'desdemona',
+'fantasy',
+'flat brush',
+'footlight mt light',
+'futurablack bt',
+'futuralight bt',
+'garamond',
+'gaze',
+'geneva',
+'georgia',
+'geotype tt',
+'(*above: Geotype TT)',
+'helterskelter',
+'helvetica',
+'herman',
+'highlight let',
+'impact',
+'jester',
+'joan',
+'john handy let',
+'jokerman let',
+'kelt',
+'kids',
+'kino mt',
+'la bamba let',
+'lithograph',
+'lucida console',
+'map symbols',
+'marlett',
+'(*above: Marlett)',
+'matteroffact',
+'matisse itc',
+'matura mt script capitals',
+'mekanik let',
+'(*above: mekanik let)',
+'monaco',
+'monospace',
+'monotype sorts',
+'ms linedraw',
+'new york',
+'olddreadfulno7 bt',
+'(*above: OldDreadfulNo7 BT)',
+'orange let',
+'palatino',
+'playbill',
+'pump demi bold let',
+'puppylike',
+'roland',
+'sans-serif',
+'scripts',
+'scruff let',
+'serif',
+'short hand',
+'signs normal',
+'(*above: Signs Normal)',
+'simplex',
+'simpson',
+'stylus bt',
+'superfrench',
+'surfer',
+'swis721 bt',
+'swis721 blkoul bt',
+'symap',
+'(*above: Symap)',
+'symbol',
+'(*above: symbol)',
+'tahoma',
+'technic',
+'tempus sans itc',
+'terk',
+'times',
+'times new roman',
+'trebuchet ms',
+'trendy',
+'txt',
+'verdana',
+'victorian let',
+'vineta bt',
+'vivian',
+'webdings',
+'(*above: Webdings)',
+'wingdings',
+'(*above: Wingdings)',
+'western',
+'westminster',
+'westwood let',
+'(*above: Westwood LET)',
+'wide latin',
+'zapfellipt bt'
+    ]
