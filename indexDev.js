@@ -9,10 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 });
   
-
-
-
-
 //function(err) {
 //  console.log(err); // Error: "It broke"
 //});

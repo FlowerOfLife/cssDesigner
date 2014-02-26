@@ -1,45 +1,46 @@
-chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
-    var obj = {};
-    getDitails('$0.name')
-        .then(function (result) {
-            obj.name = result;
-            console.log(result); // "Stuff worked!"
-        })
+if (chrome.devtools) {
 
-    .then(function () {
-        return getDitails('$0.id')
+    chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
+        var obj = {};
+        getDitails('$0.name')
+            .then(function (result) {
+                obj.name = result;
+            })
+
+        .then(function () {
+            return getDitails('$0.id')
+        })
+            .then(function (result) {
+                obj.id = result;
+            })
+
+        .then(function () {
+            return getDitails('$0.tagName')
+        })
+            .then(function (result) {
+                obj.tagName = result;
+            })
+
+        .then(function () {
+            return getDitails('$0.style')
+        })
+            .then(function (result) {
+                obj.style = result;
+                console.log(obj.style)
+                initTools(obj);
+            })
+
+
+
     })
-        .then(function (result) {
-            obj.id = result;
-            console.log(result); // "Stuff worked!"
-        })
 
-    .then(function () {
-        return getDitails('$0.tagName')
-    })
-        .then(function (result) {
-            obj.tagName = result;
-            console.log(result); // "Stuff worked!"
-        })
-
-    .then(function () {
-        return getDitails('$0.style')
-    })
-        .then(function (result) {
-            obj.style = result;
-            console.log(obj)
-            initTools(obj);
-            // "Stuff worked!"
-        })
+}
 
 
 
-})
-
-//function(err) {
-//  console.log(err); // Error: "It broke"
-//});
-
+props = document.createElement('myObject');
+console.log(props);
+initTools(props);
 
 
 function getDitails(evalToGet) {
@@ -52,17 +53,17 @@ function getDitails(evalToGet) {
 }
 
 function initTools(props) {
-    var objForAllStyles = document.createElement((props.tagName).toLowerCase());
-   // props.style
-    
-    $('#choosen').empty()
-    .ready(function(){
-    $('#choosen').append(inspectedObj.createPropertySelector(objForAllStyles))
-    
 
-    .ready(
-        function () {
-            $('#chosenProps').val([
+    var objForAllStyles = document.createElement((props.tagName).toLowerCase());
+
+    // props.style
+
+    $('#choosen').empty()
+        .ready(function () {
+            $('#choosen').append(inspectedObj.createPropertySelector(objForAllStyles))
+                .ready(
+                    function () {
+                        $('#chosenProps').val([
                         'borderBottomLeftRadius',
                         'borderTopLeftRadius',
                         'borderBottomRightRadius',
@@ -75,9 +76,10 @@ function initTools(props) {
                         'float',
                         'border'
                     ]);
-            $('#chosenProps').trigger("chosen:updated");
+                        $('#chosenProps').trigger("chosen:updated");
+                        $('#chosenProps').change()
+                    })
         })
-})
 }
 
 var inspectedObj = {
@@ -101,7 +103,6 @@ var inspectedObj = {
                 for (var atr in thisChosenVal) {
                     //$('#workDiv').append(inspectedObj.criateToolbox(thisChosenVal[atr], props));
                     $('#workDiv').append(addSlidersBox(thisChosenVal[atr], props));
-                    //console.log(thisChosenVal[atr]);
                 }
             },
             multiple: true,
@@ -109,6 +110,7 @@ var inspectedObj = {
 
         })
             .ready(function () {
+                console.log(props)
                 for (var atr in props.style) {
                     $("#chosenProps").append(
                         $("<option>", {

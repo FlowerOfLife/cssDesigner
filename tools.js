@@ -23,7 +23,10 @@
                 textBoxRes.id = objectId;
                 textBoxRes.type = 'text';
                 textBoxRes.onchange = function () {
-                    inspectedObj.updateObject(this.id.replace('textRes', ''), this.value, obj);
+                    inspectedObj.updateObject(this.id.replace('res', ''), this.value, obj);
+                }
+                textBoxRes.onkeyup = function () {
+                    inspectedObj.updateObject(this.id.replace('res', ''), this.value, obj);
                 }
                 return textBoxRes;
             },
@@ -53,15 +56,37 @@
                 textBox.style.width = '30px';
                 textBox.type = 'text';
                 textBox.id = objectId;
-                var ScrolNum = objectId.replace('min  ', '');
+                var ScrolNum = objectId.replace('min', '');
                 ScrolNum = ScrolNum.replace('max', '');
                 textBox.onchange = function () {
-                    console.log(ScrolNum)
                     if (objectId.indexOf('max') != -1) {
-                        eval('slider' + ScrolNum).max = this.value;
+                        console.log(ScrolNum);
+                        if (ScrolNum.indexOf('1') != -1) {
+                            slider11.max = this.value
+                        }
+                        if (ScrolNum.indexOf('2') != -1) {
+                            slider2.max = this.value
+                        }
+                        if (ScrolNum.indexOf('3') != -1) {
+                            slider3.max = this.value
+                        }
+                        if (ScrolNum.indexOf('4') != -1) {
+                            slider4.max = this.value
+                        }
                     }
                     if (objectId.indexOf('min') != -1) {
-                        eval('slider' + ScrolNum).min = this.value;
+                        if (ScrolNum.indexOf('1') != -1) {
+                            slider11.max = this.value
+                        }
+                        if (ScrolNum.indexOf('2') != -1) {
+                            slider2.max = this.value
+                        }
+                        if (ScrolNum.indexOf('3') != -1) {
+                            slider3.max = this.value
+                        }
+                        if (ScrolNum.indexOf('4') != -1) {
+                            slider4.max = this.value
+                        }
                     }
                 }
                 return textBox;
