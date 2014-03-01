@@ -26,12 +26,8 @@ if (chrome.devtools) {
         })
             .then(function (result) {
                 obj.style = result;
-                console.log(obj.style)
                 initTools(obj);
             })
-
-
-
     })
 
 }
@@ -39,42 +35,122 @@ if (chrome.devtools) {
 
 
 props = document.createElement('myObject');
-console.log(props);
 initTools(props);
+var filtered = []
 
-
-function getDitails(evalToGet) {
-    var promise = new Promise(function (resolve, reject) {
-        chrome.devtools.inspectedWindow.eval(evalToGet, function (result, isException) {
-            resolve(result)
+    function getDitails(evalToGet) {
+        var promise = new Promise(function (resolve, reject) {
+            chrome.devtools.inspectedWindow.eval(evalToGet, function (result, isException) {
+                resolve(result)
+            });
         });
-    });
-    return promise;
-}
+        return promise;
+    }
 
-function initTools(props) {
+    function buildAcordion(props) {
+        return $('<div>', {
+            id: 'accordionFilter'
+        }).append(
+            $('<select>', {
+                id: 'accordionSelectorId',
+                change: function () {
+                    // initTools(props, filterValue);
 
-    var objForAllStyles = document.createElement((props.tagName).toLowerCase());
+                    var acor = this.value
+                    $('#accodionId').remove()
+                    var accordionDiv = document.createElement('div');
+                    accordionDiv.id = 'accodionId';
+                    accordionDiv.style.float = 'left';
+                    accordionDiv.style.fontSize = '12px';
+                    var filterValue = $('#accordionSelectorId').val().toString();
+                    // console.log(filterValue)
 
-    // props.style
 
-    $('#choosen').empty()
-        .ready(function () {
-            $('#choosen')
-                .append($('<h3>', {
-                    text: 'Type:' + props.tagName + '     ID:' + props.id + '      css:' + JSON.stringify(props.style)
+                    var thisChosenVal = $('#chosenProps').val();
 
-                }))
+                    for (var addCustom in thisChosenVal) {
+                        addAccordionValue(thisChosenVal[addCustom])
+                    }
+
+                    for (var acor in props.style) {
+                        // $('#chosenProps').val(acor);
+                        if (acor.toLowerCase().indexOf(filterValue.toLowerCase()) > -1) {
+                            filtered.push(acor);
+                            addAccordionValue(acor)
+                            // accordionDiv.style.fontSize = '14px'
+                        }
+                    }
+                    //  $('#chosenProps').val(filtered);
+                    //$('#chosenProps').trigger("chosen:updated");
+                    //$('#chosenProps').change()
+                    console.log(filtered)
+
+                    function addAccordionValue(acor) {
+                        var h3 = document.createElement('h3');
+                        h3.innerHTML = (acor);
+                        var div = document.createElement('div');
+                        if (acor == 'fontFamily') {
+                            div.appendChild(addFontBox(acor, props))
+                        } else if (acor.indexOf('Color') != -1) {
+                            div.appendChild(addColorBox(acor, props))
+                        } else {
+                            div.appendChild(addSlidersBox(acor, props))
+                        }
+                        accordionDiv.appendChild(h3);
+                        accordionDiv.appendChild(div);
+                    }
+                    $('#workDiv').append(accordionDiv).ready(function () {
+
+                        $('#accodionId').accordion();
+
+                    });
+                }
+            }).append(
+                $('<option>', {
+                    id: "border",
+                    text: 'border'
+                }),
+                $('<option>', {
+                    id: "font",
+                    text: 'font'
+                }),
+                $('<option>', {
+                    id: "color",
+                    text: 'color'
+                }),
+                $('<option>', {
+                    id: "custom",
+                    text: 'custom'
+                })
+
+            )
+        )
+
+    }
+
+    function initTools(props) {
+
+        var objForAllStyles = document.createElement((props.tagName).toLowerCase());
+        var filtered = []
+        // props.style
+
+        $('#choosen').empty()
+            .ready(function () {
+                $('#choosen')
+                    .append($('<h3>', {
+                        text: 'Type:' + props.tagName + '     ID:' + props.id + '      css:' + JSON.stringify(props.style)
+
+                    }))
+
                 .append(inspectedObj.createPropertySelector(objForAllStyles))
-                .ready(
-                    function () {
-                        $('#chosenProps').val([
+                    .append(
+                        buildAcordion(props)
+                )
+                    .ready(
+                        function () {
+                            $('#chosenProps').val([
                             'fontFamily',
                             'backgroundColor',
-                        'borderBottomLeftRadius',
-                        'borderTopLeftRadius',
-                        'borderBottomRightRadius',
-                        'borderTopRightRadius',
                         'borderRadius',
                         'fontSize',
                         'height',
@@ -84,11 +160,11 @@ function initTools(props) {
                         'float',
                         'border'
                     ]);
-                        $('#chosenProps').trigger("chosen:updated");
-                        $('#chosenProps').change()
-                    })
-        })
-}
+                            $('#chosenProps').trigger("chosen:updated");
+                            $('#chosenProps').change()
+                        })
+            })
+    }
 
 var inspectedObj = {
 
@@ -106,27 +182,40 @@ var inspectedObj = {
             //selectbox on select update toolboxes
             text: 'select style',
             change: function () {
-                var thisChosenVal = $('#chosenProps').val();
+
+
+                /* accodrion */
                 $('#workDiv').html('');
+                $('#accordionSelectorId').change()
+                var thisChosenVal = $('#chosenProps').val();
+
+                var toolBoxesDiv = document.createElement('div');
+                toolBoxesDiv.id = 'toolBoxDivId';
+                toolBoxesDiv.style.float = 'left';
+                /* ADD BOXES TO WORKING DIV*/
                 for (var atr in thisChosenVal) {
                     //$('#workDiv').append(inspectedObj.criateToolbox(thisChosenVal[atr], props));
                     if (thisChosenVal[atr] == 'fontFamily') {
-                        $('#workDiv').append(addFontBox(thisChosenVal[atr], props));
+                        $(toolBoxesDiv).append(addFontBox(thisChosenVal[atr], props));
                     } else if (thisChosenVal[atr].indexOf('Color') != -1) {
-                        console.log('XXXXXXX')
-                        $('#workDiv').append(addColorBox(thisChosenVal[atr], props));
+                        $(toolBoxesDiv).append(addColorBox(thisChosenVal[atr], props));
                     } else {
-                        $('#workDiv').append(addSlidersBox(thisChosenVal[atr], props));
+                        $(toolBoxesDiv).append(addSlidersBox(thisChosenVal[atr], props));
                     }
-
                 }
+
+                //  $('#workDiv').append(toolBoxesDiv)
+                $('#workDiv').append(document.createElement('br'))
+                /*Add accoedion to next to chosen*/
+
+
+
             },
             multiple: true,
             id: 'chosenProps',
 
         })
             .ready(function () {
-                console.log(props)
                 for (var atr in props.style) {
                     $("#chosenProps").append(
                         $("<option>", {
@@ -189,9 +278,7 @@ var inspectedObj = {
                 id: divid + "_slidersValue",
                 keypress: function () {
                     var propName = this.id.replace('_slidersValue', '');
-                    console.log(document.getElementById(this.id).value);
                     obj.style[propName] = document.getElementById(this.id).value;
-                    console.log("Handler for .keypress() called.");
                 }
             })
 
@@ -249,7 +336,6 @@ var inspectedObj = {
         inspectedObj.updataObjectFromPage(styleString, value)
     },
     updataObjectFromPage: function (styleString, value) {
-        console.log("$0.style." + styleString + "=" + value)
         chrome.devtools.inspectedWindow.eval("$0.style." + styleString + "='" + value + "'");
     }
 

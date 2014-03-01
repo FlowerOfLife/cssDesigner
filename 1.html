@@ -1,166 +1,44 @@
+<head>
+    <link rel="stylesheet" href="jquery-ui-1.10.3/themes/base/jquery.ui.all.css">
+    <link rel="stylesheet" href="chosen/chosen.min.css">
+    <link rel="stylesheet" href="qtip/jquery.qtip.css">
+    <script src="jquery-ui-1.10.3/jquery-1.9.1.js"></script>
+    <script src="jquery-ui-1.10.3/ui/jquery-ui.js"></script>
+    <script src="jquery-ui-1.10.3/ui/jquery.ui.droppable.js"></script>
+    <script src="qtip/jquery.qtip.js"></script>
+    <script src="chosen/chosen.jquery.min.js" type="text/javascript"></script>
+
+</head>
+
 <style>
-#toolBox{
-    width :230px;
-}
+    #toolBox{
+        width :230px;
+    }
 </style>
 <div id=propsTextDiv>
-<input type="text" id = 'propsText'>
-<br>
+    <input type="text" id='propsText'>
+    <br>
 </div>
-<div id = 'test'></div>
+<div id='test'></div>
 <script>
+    var accordionDiv = document.createElement('div');
+        accordionDiv.id = 'fffff'
+    function createAccordion(accordionIds){
 
-
-var body = document.getElementById('test');
-propName = "SASHA";
-body.appendChild(slidersBox(propName))
-body.appendChild(slidersBox('HHHH'))
-
-
-function slidersBox(propName){
-    function addSlidersBox(propId){
-    var toolBoxObjects = {
-        comboBox:function(objectId){
-          var select = document.createElement('select');
-          var pxOption = document.createElement('option');
-          var PercentOption = document.createElement('option');
-          pxOption.text = 'px';
-          PercentOption.text = '%';
-          select.appendChild(pxOption)
-          select.appendChild(PercentOption)
-          select.id = objectId;
-          return select;
-        },
-        textBoxResult:function(objectId){
-          textBoxRes = document.createElement('input');
-          textBoxRes.id = objectId;
-          textBoxRes.type = 'text';
-          return textBoxRes;
-        },
-        checkBox:function(objectId){
-          checkbox = document.createElement('input');
-          checkbox.id = objectId;
-          checkbox.type = 'checkbox';
-          return checkbox;
-        },
-        div:  function(objectId){
-          div = document.createElement('div');
-          div.id = objectId;
-          div.style.border= 'solid #e2dfdf 2px';
-          return div;
-          },
-        slider:function(objectId){
-          slider = document.createElement('input');
-          slider.type = 'range';
-          slider.id = objectId;
-          slider.onchange = function(){updatePropTextValue()};
-          return slider;
-          },
-        minMaxTextBox:function(objectId){
-          textBox = document.createElement('input');
-          textBox.style.width = '30px';
-          textBox.type = 'text';
-          textBox.id = objectId;
-console.log(objectId);
-          var ScrolNum = objectId.replace('minType','');
-          ScrolNum = ScrolNum.replace('maxType','');
-          textBox.onchange = function(){
-          console.log(ScrolNum)
-          if(objectId.indexOf('max') != -1){
-              eval('slider'+ ScrolNum).max = this.value;
-          }
-          if(objectId.indexOf('min') != -1){
-              eval('slider'+ ScrolNum).min = this.value;
-          }
-          }
-          return textBox;
-          }
+        for (accordionId in accordionIds){
+            var h3 = document.createElement('h3');
+            h3.innerHTML = ('aheader'+accordionIds[accordionId]);
+            var div = document.createElement('div');
+            div.innerHTML = ('aContentDiv'+accordionIds[accordionId]);
+            accordionDiv.appendChild(h3);
+            accordionDiv.appendChild(div)   ;
         }
-
-var SlidersPane = new toolBoxObjects.div('SlidersPane'+propName);
-var slider = toolBoxObjects.slider;
-var minMaxTextBox = new toolBoxObjects.minMaxTextBox('minMaxTextBox'+propName);
-var br = document.createElement('br');
-
-body.appendChild(SlidersPane)
-
-SlidersPane.appendChild(toolBoxObjects.comboBox('sizeType'+propName))
-SlidersPane.appendChild(br);
-
-for(var i = 1;i<5;i++){
-    var br = document.createElement('br');
-    var container = toolBoxObjects.div('slidePanel'+propName+i)
-    SlidersPane.appendChild(container);
-    container.appendChild(toolBoxObjects.checkBox('cbox'+propName+i));
-    container.appendChild(toolBoxObjects.minMaxTextBox('minType'+propName+i));
-    container.appendChild(toolBoxObjects.slider('slider'+propName+i));
-    container.appendChild(toolBoxObjects.minMaxTextBox('maxType'+propName+i));
-    SlidersPane.appendChild(br);
-}
-
-var br = document.createElement('br');
-SlidersPane.appendChild(toolBoxObjects.textBoxResult('textBoxRes'+propName));
-
-
-var propText = document.getElementById('propsText');
-        eval("slidePanel"+propName+'2').style.visibility="hidden";
-        eval("slidePanel"+propName+'3').style.visibility="hidden";
-        eval("slidePanel"+propName+'4').style.visibility="hidden";
-document.getElementById("cbox"+propName+'1').onchange = function()
-{
-        if(this.checked)
-                {
-                        eval("slidePanel"+propName+'2').style.visibility="visible";
-
-                }else{
-        eval("slidePanel"+propName+'2').style.visibility="hidden";
-        eval("slidePanel"+propName+'3').style.visibility="hidden";
-        eval("slidePanel"+propName+'4').style.visibility="hidden";
-                }
-                
-        }
-        
-document.getElementById("cbox"+propName+'2').onchange = function()
-{
-        if(this.checked)
-                {
-                        eval("slidePanel"+propName+'3').style.visibility="visible";
-                        eval("slidePanel"+propName+'4').style.visibility="visible";
-                }else{
-                        eval("slidePanel"+propName+'3').style.visibility="hidden";
-                        eval("slidePanel"+propName+'4').style.visibility="hidden";
-                }
-                
-        }
-
-var checkBox1 = document.getElementById("cbox"+propName+'1');
-var checkBox2 = document.getElementById("cbox"+propName+'2');
-var slideRange1 = document.getElementById('slider'+propName+'1');
-var slideRange2 = document.getElementById('slider'+propName+'2');
-var slideRange3 = document.getElementById('slider'+propName+'3');
-var slideRange4 = document.getElementById('slider'+propName+'4');
-var sizeType= document.getElementById('sizeType'+propName);
-var textProp= document.getElementById('textBoxRes'+propName);
-function updatePropTextValue(){
-       //console.log(slideRange1.value);
-        if(checkBox1.checked){
-     
-        textProp.value = slideRange1.value +sizeType.value+" "+ slideRange2.value +sizeType.value+" ";
-        }
-        
-        if(checkBox2.checked&&checkBox1.checked){
-        textProp.value = slideRange1.value +sizeType.value+" " +slideRange2.value +sizeType.value+" "+slideRange3.value +sizeType.value+" " +slideRange4.value +sizeType.value+" ";
-        }
-        
-        if(checkBox1.checked==false){
-        textProp.value = slideRange1.value +sizeType.value;        
-        }
-}
-     return SlidersPane   
-}        
-return addSlidersBox();
-}
-
-
-
+        return accordionDiv;
+    }
+    var WorkingDiv = document.getElementById('test');
+    var idds = ['AAAA1','AAAA2','AAAA3','AAAA4']
+WorkingDiv.appendChild(createAccordion(idds));
+   $(function() {
+    $( "#fffff" ).accordion();
+  });
 </script>

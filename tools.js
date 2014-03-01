@@ -60,7 +60,6 @@
                 ScrolNum = ScrolNum.replace('max', '');
                 textBox.onchange = function () {
                     if (objectId.indexOf('max') != -1) {
-                        console.log(ScrolNum);
                         if (ScrolNum.indexOf('1') != -1) {
                             slider11.max = this.value
                         }
@@ -183,7 +182,6 @@
         }
         //update textbox result
         function updatePropTextValue() {
-            console.log(checkbox1.checked);
             if (checkbox1.checked) {
 
                 textRes.value = slider11.value + sizeType.value + " " + slider2.value + sizeType.value + " ";
@@ -223,7 +221,6 @@
                 var fonts = fontsArray;
                 for (font in fonts) {
                     var fontOption = document.createElement('option');
-                    console.log(fonts[font]);
                     fontOption.text = fonts[font];
                     select.appendChild(fontOption)
                 }
