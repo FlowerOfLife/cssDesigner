@@ -144,10 +144,16 @@ var filtered = []
 
                 .append(inspectedObj.createPropertySelector(objForAllStyles))
                     .append(
-                        buildAcordion(props)
+                        // buildAcordion(props)
                 )
                     .ready(
+
+
                         function () {
+                            setTimeout(function () {
+
+                            }, 1000)
+
                             $('#chosenProps').val([
                             'fontFamily',
                             'backgroundColor',
@@ -161,7 +167,9 @@ var filtered = []
                         'border'
                     ]);
                             $('#chosenProps').trigger("chosen:updated");
-                            $('#chosenProps').change()
+                            $('#chosenProps').change().ready(function () {
+                                $('[id^=windowBody]').toggle();
+                            })
                         })
             })
     }
@@ -191,7 +199,7 @@ var inspectedObj = {
 
                 var toolBoxesDiv = document.createElement('div');
                 toolBoxesDiv.id = 'toolBoxDivId';
-                toolBoxesDiv.style.float = 'left';
+                //toolBoxesDiv.style.float = 'left';
                 /* ADD BOXES TO WORKING DIV*/
                 for (var atr in thisChosenVal) {
                     //$('#workDiv').append(inspectedObj.criateToolbox(thisChosenVal[atr], props));
@@ -204,7 +212,7 @@ var inspectedObj = {
                     }
                 }
 
-                //  $('#workDiv').append(toolBoxesDiv)
+                $('#workDiv').append(toolBoxesDiv)
                 $('#workDiv').append(document.createElement('br'))
                 /*Add accoedion to next to chosen*/
 

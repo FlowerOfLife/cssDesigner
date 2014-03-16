@@ -15,7 +15,35 @@
 
 <body>
     <style type="text/css">
-        [id*=SlidersPane],[id*=colorPanel],[id*=fontPanel] {
+        [id*=toolBoxDivId]{
+            height: 500px;
+            width: 1000px;
+            border: 1px solid #c9c9c9; 
+        -webkit-column-count:3;
+-webkit-column-gap:40px;
+-webkit-column-rule-style:outset;
+-webkit-column-rule-width:1px;
+        }
+        [id*=containerWindow]{
+        width: 216px; 
+
+        }
+        [id*=windowBody]{
+        
+        width: 216px; 
+        height: 146px;
+        border: 1px solid #c9c9c9; 
+        border-radius: 0px 0px 7px 7px;
+        }
+        [id*=windowTitle]
+        {
+        width: 216px;
+        height: 25px;
+        border: 1px solid #c9c9c9; 
+        border-radius: 7px 7px 0px 0px;
+        }
+        
+        [id*=SlidersPanex],[id*=colorPanelx],[id*=fontPanelx] {
             border: 1px solid #c9c9c9; 
             width: 220px;
             margin: 7px;
@@ -23,10 +51,10 @@
             float: left; 
             background-color: #fff; 
             font-size: 15px; 
-            height: 226px;
+
             background-color: rgb(243, 243, 243);
             border-radius: 17px; 
-            
+        }
         [id*=SlidersPanel] {
             border: 1px solid #c9c9c9; 
             width: 220px;
@@ -35,7 +63,7 @@
             float: left; 
             background-color: #fff; 
             font-size: 15px; 
-            height: 226px;
+
             background-color: rgb(243, 243, 243);
             border-radius: 17px; 
 

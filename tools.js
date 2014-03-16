@@ -2,9 +2,6 @@
         var toolBoxObjects = {
             title: function (objectId) {
                 var div = document.createElement('div');
-                var h1 = document.createElement('h3');
-                h1.innerHTML = propName;
-                div.appendChild(h1);
                 return div;
             },
             comboBox: function (objectId) {
@@ -92,7 +89,6 @@
             }
         }
         var SlidersPane = new toolBoxObjects.div('SlidersPane' + propName);
-        var br = document.createElement('br');
         var container1 = toolBoxObjects.div('slidePanel1' + propName);
         var container2 = toolBoxObjects.div('slidePanel2' + propName);
         var container3 = toolBoxObjects.div('slidePanel3' + propName);
@@ -119,8 +115,8 @@
 
 
 
-        SlidersPane.style.width = '220px'
-        SlidersPane.style.float = 'left'
+        //SlidersPane.style.width = '220px'
+        // SlidersPane.style.float = 'left'
 
         container1.appendChild(checkbox1);
         container1.appendChild(checkbox1);
@@ -128,19 +124,19 @@
         container1.appendChild(slider11);
         container1.appendChild(max1);
 
-        container2.style.width = '220px'
+        //container2.style.width = '220px'
         container2.appendChild(checkbox2);
         container2.appendChild(checkbox2);
         container2.appendChild(min2);
         container2.appendChild(slider2);
         container2.appendChild(max2);
 
-        container3.style.width = '220px'
+        //container3.style.width = '220px'
         container3.appendChild(min3);
         container3.appendChild(slider3);
         container3.appendChild(max3);
 
-        container4.style.width = '220px'
+        //container4.style.width = '220px'
         container4.appendChild(min4);
         container4.appendChild(slider4);
         container4.appendChild(max4);
@@ -197,7 +193,7 @@
             inspectedObj.updateObject(propName, textRes.value, obj);
         }
 
-        return SlidersPane;
+        return windowBox(SlidersPane, propName);
     }
 
 
@@ -253,7 +249,7 @@
         fontPanel.style.float = 'left';
         fontPanel.appendChild(fontComboBox)
         fontPanel.appendChild(textBoxResults)
-        return fontPanel;
+        return windowBox(fontPanel, propName);
     }
 
 
@@ -303,11 +299,38 @@
         var resultBox = colorSelector.textBoxResult('textBoxResult' + propName)
         colorPanel.appendChild(colorSelectTool)
         colorPanel.appendChild(resultBox)
-        return colorPanel;
+        return windowBox(colorPanel, propName);
     }
 
 
+    function windowBox(content, titleName) {
+        var panelContainerDiv = document.createElement('div');
+        var panelTopDiv = document.createElement('div');
+        var panelBodyDiv = document.createElement('div');
+        panelContainerDiv.appendChild(panelTopDiv);
+        panelContainerDiv.appendChild(panelBodyDiv);
+        //panelContainerDiv.style.float = 'left';
+        panelContainerDiv.id = 'toolWindow' + titleName
+        panelTopDiv.style.width = '216px';
+        panelTopDiv.style.height = '25px';
 
+        panelTopDiv.innerHTML = (titleName);
+        panelTopDiv.onclick = function () {
+            $(panelBodyDiv).toggle("blind", 0, 500);
+        }
+
+        panelTopDiv.style.backgroundColor = '#a2fbff';
+        panelBodyDiv.style.width = '216px';
+
+        panelBodyDiv.style.backgroundColor = '#d5fffd';
+        panelBodyDiv.style.transition = '0.5s';
+        panelBodyDiv.appendChild(content)
+        panelContainerDiv.id = 'containerWindow' + titleName;
+        panelTopDiv.id = 'windowTitle' + titleName;
+        panelBodyDiv.id = 'windowBody' + titleName;
+
+        return panelContainerDiv;
+    }
 
 
 

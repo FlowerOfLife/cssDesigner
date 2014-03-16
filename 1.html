@@ -21,24 +21,29 @@
 </div>
 <div id='test'></div>
 <script>
-    var accordionDiv = document.createElement('div');
-        accordionDiv.id = 'fffff'
-    function createAccordion(accordionIds){
-
-        for (accordionId in accordionIds){
-            var h3 = document.createElement('h3');
-            h3.innerHTML = ('aheader'+accordionIds[accordionId]);
-            var div = document.createElement('div');
-            div.innerHTML = ('aContentDiv'+accordionIds[accordionId]);
-            accordionDiv.appendChild(h3);
-            accordionDiv.appendChild(div)   ;
-        }
-        return accordionDiv;
+    function windowBox(){
+    var panelContainerDiv = document.createElement('div');
+    var panelTopDiv = document.createElement('div');
+    var panelBodyDiv = document.createElement('div');   
+    panelContainerDiv.appendChild(panelTopDiv);
+    panelContainerDiv.appendChild(panelBodyDiv);
+    panelTopDiv.style.width = '200px';
+    panelTopDiv.style.height = '25px';
+    panelTopDiv.onclick = function() {
+    if(panelBodyDiv.style.height == "1px"){
+    panelBodyDiv.style.height = "200px";
+    }else{
+    panelBodyDiv.style.height = "1px";
     }
-    var WorkingDiv = document.getElementById('test');
-    var idds = ['AAAA1','AAAA2','AAAA3','AAAA4']
-WorkingDiv.appendChild(createAccordion(idds));
-   $(function() {
-    $( "#fffff" ).accordion();
-  });
+    }
+    panelTopDiv.style.backgroundColor ='#a2fbff';
+    panelBodyDiv.style.width = '200px';
+    panelBodyDiv.style.height = '200px';
+    panelBodyDiv.style.backgroundColor ='#d5fffd';
+    panelBodyDiv.style.transition = '0.5s';
+    return panelContainerDiv;
+    }
+        var testdiv = document.getElementById('test');
+testdiv.appendChild(windowBox());
+    testdiv.appendChild(windowBox());
 </script>
