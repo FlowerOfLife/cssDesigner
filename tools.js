@@ -307,23 +307,28 @@
         var panelContainerDiv = document.createElement('div');
         var panelTopDiv = document.createElement('div');
         var panelBodyDiv = document.createElement('div');
+        panelContainerDiv.className = 'containerWindowDiv';
+        panelTopDiv.className = 'topWindowDiv';
+        panelBodyDiv.className = 'bodyWindowDiv';
         panelContainerDiv.appendChild(panelTopDiv);
         panelContainerDiv.appendChild(panelBodyDiv);
-        //panelContainerDiv.style.float = 'left';
+        panelContainerDiv.style.float = 'left';
         panelContainerDiv.id = 'toolWindow' + titleName
-        panelTopDiv.style.width = '216px';
-        panelTopDiv.style.height = '25px';
+
 
         panelTopDiv.innerHTML = (titleName);
         panelTopDiv.onclick = function () {
-            $(panelBodyDiv).toggle("blind", 0, 500);
+            $('.bodyWindowDiv').toggle("blind", 0, 500).ready(function () {
+                $(panelBodyDiv).toggle("blind", 0, 500);
+            });
+
         }
 
         panelTopDiv.style.backgroundColor = '#a2fbff';
-        panelBodyDiv.style.width = '216px';
 
         panelBodyDiv.style.backgroundColor = '#d5fffd';
         panelBodyDiv.style.transition = '0.5s';
+        panelBodyDiv.style.float = 'left';
         panelBodyDiv.appendChild(content)
         panelContainerDiv.id = 'containerWindow' + titleName;
         panelTopDiv.id = 'windowTitle' + titleName;
