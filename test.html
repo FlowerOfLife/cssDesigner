@@ -1,1 +1,83 @@
 <!DOCTYPE html>
+<table id="ttt" style="width:'300px'" border='solid black 1px'>
+    <tr>
+        <td id="xxx1">Jill</td>
+        <td id="xxx2">Smith</td>
+        <td id="xxx3">50</td>
+    </tr>
+    <tr>
+        <td id="xxx4">Eve</td>
+        <td id="xxx5">Jackson</td>
+        <td id="xxx6">94</td>
+    </tr>
+    <tr>
+        <td id="xxx4">Eve</td>
+        <td id="xxx5">Jackson</td>
+        <td id="xxx6">94</td>
+    </tr>
+</table>
+
+<div id='mydiv'>zzzzzz</div>
+
+<script>
+    console.log(document.getElementsByTagName('td'));
+          var dl = document.createElement('dl');
+    for(var i=0;i<100;i++){
+    //dl object
+    var dt = document.createElement('dt');
+    var dtDiv = document.createElement('div');
+    dl.id = "dlID"+i;
+    dt.id = "dtID"+i;
+    dtDiv.id = "dtDiv"+i;   
+    dl.appendChild(dt);
+    dt.appendChild(dtDiv);
+        //div cube
+        var divCube = document.createElement('div');
+            divCube.id = 'divCube';
+            divCube.style.backgroundColor = '#7acb8a';
+            divCube.style.width = '100px';
+            divCube.style.height = '20px';  
+            divCube.style.border = 'solid black 1px';
+            //divCube.style.float = 'left';
+            divCube.style.transition = '1s';
+            divCube.onmouseover = function(){
+            console.log(this)
+            if(this.style.height=='100px'){
+            this.style.width = '100px';
+            this.style.height = '20px';
+            }else{
+            this.style.width = '100px';
+            this.style.height = '100px';  
+            }
+            };          
+            divCube.onmouseout = function(){
+            console.log(this)
+            this.style.width = '100px';
+            this.style.height = '20px';
+            };
+            
+        var mydiv = document.getElementById('mydiv');
+        var cube = divCube;
+        cube.id = 'ff'+i;
+        mydiv.appendChild(dl); 
+        dtDiv.appendChild(divCube);
+
+
+    }
+var table = document.getElementById('xxx1');
+table.transition = '1s';
+table.onmouseover = function(){
+            console.log(this)
+            if(this.style.height=='100px'){
+            this.style.width = '100px';
+            this.style.height = '20px';
+            }else{
+            this.style.width = '100px';
+            this.style.height = '100px';  
+            }
+            };    
+//  mydiv.appendChild(car2);
+</script>
+<html>
+
+</html>
